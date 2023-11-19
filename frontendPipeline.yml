@@ -1,0 +1,20 @@
+steps:
+  # Build static website
+  - name: node:18.13
+    entrypoint: npm
+    args: ["install"]
+  - name: node:18.13
+    entrypoint: npm
+    args: ["run", "build"]
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    args: ["gcloud", "storage", "rm", "-r", "gs://${_FRONTEND_BUCKET_NAME}/**"]
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    args:
+      [
+        "gcloud",
+        "storage",
+        "cp",
+        "-r",
+        "/workspace/build/*",
+        "gs://${_FRONTEND_BUCKET_NAME}",
+      ]
