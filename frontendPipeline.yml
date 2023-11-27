@@ -17,4 +17,5 @@ steps:
         "-r",
         "/workspace/build/*",
         "gs://${_FRONTEND_BUCKET_NAME}",
+        
       ]
