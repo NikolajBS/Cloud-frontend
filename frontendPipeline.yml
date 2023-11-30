@@ -24,11 +24,12 @@ steps:
         "-r",
         "/workspace/build/*",
         "gs://${_FRONTEND_BUCKET_NAME}",
-        
       ]
+
+  # Corrected indentation for the next step
   - name: "gcr.io/cloud-builders/gcloud"
-      args:
-        - "app"
-        - "deploy"
-      env:
-        - "_BACKEND_ADDRESS=${_BACKEND_ADDRESS}"
+    args:
+      - "app"
+      - "deploy"
+    env:
+      - "_BACKEND_ADDRESS=${_BACKEND_ADDRESS}"
