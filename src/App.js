@@ -3,15 +3,16 @@ import { useQuery, useMutation } from "react-query";
 import axios from "axios";
 
 function App() {
+  const backendAddress = process.env.REACT_APP_BACKEND_ADDRESS;
   const fetchMenu = async () => {
     return await axios
-      .get("http://localhost:3000/menu")
+      .get(`${backendAddress}/menu`)
       .then((response) => response.data);
   };
   const { data, error, isLoading } = useQuery("menu", fetchMenu);
 
   const orderMutation = useMutation((order) =>
-    axios.post("http://localhost:3000/order", order)
+    axios.post(`${backendAddress}/order`, order)
   );
 
   if (isLoading) {
