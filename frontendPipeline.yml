@@ -8,10 +8,6 @@ steps:
     args: ["run", "build"]
 
   # Set environment variables
-  - name: "gcr.io/cloud-builders/gcloud"
-    args: ["secrets", "versions", "access", "latest", "--secret", "backend-address"]
-    env:
-      - 'REACT_APP_BACKEND_ENDPOINT=$_BACKEND_ADDRESS'
 
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     args: ["gcloud", "storage", "rm", "-r", "gs://${_FRONTEND_BUCKET_NAME}/**"]
@@ -24,9 +20,14 @@ steps:
         "-r",
         "/workspace/build/*",
         "gs://${_FRONTEND_BUCKET_NAME}",
+        
       ]
-
-  # Corrected indentation for the next step
+  - name: "gcr.io/cloud-builders/gcloud"
+      args:
+        - "app"
+        - "deploy"
+      env:
+        - "_BACKEND_ADDRESS=${_BACKEND_ADDRESS}"
   - name: "gcr.io/cloud-builders/gcloud"
     args:
       - "app"
