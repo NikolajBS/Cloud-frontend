@@ -4,7 +4,7 @@ import axios from "axios";
 
 function App() {
   const backendAddress = process.env.REACT_APP_BACKEND_ADDRESS;
-  console.log("Backend Address:", backendAddress);
+
   const fetchMenu = async () => {
     return await axios
       .get(`${backendAddress}/menu`)

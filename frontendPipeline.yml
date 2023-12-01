@@ -1,30 +1,31 @@
 steps:
-  # Build static website
-  - name: node:18.13
-    entrypoint: npm
-    args: ["install"]
-  - name: node:18.13
-    entrypoint: npm
-    args: ["run", "build"]
-
-  # Set environment variables
-  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-    args: ["gcloud", "storage", "rm", "-r", "gs://${_FRONTEND_BUCKET_NAME}/**"]
-  - name: "gcr.io/cloud-builders/gcloud"
-    entrypoint: bash
+  - name: 'node:18.13'
     args:
-      - "-c"
+      - install
+    entrypoint: npm
+  - name: 'node:18.13'
+    args:
+      - run
+      - build
+    entrypoint: npm
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    args:
+      - gcloud
+      - storage
+      - rm
+      - '-r'
+      - 'gs://${_FRONTEND_BUCKET_NAME}/**'
+  - name: 'node:18.13'
+    args:
+      - '-c'
       - |
-        echo "REACT_APP_BACKEND_ADDRESS=${_BACKEND_ADDRESS}" > /workspace/build/.env
-
-  # Copy build artifacts to the storage bucket
-  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+        REACT_APP_BACKEND_ADDRESS=${_BACKEND_ADDRESS} npm run build
+    entrypoint: bash
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
-      [
-        "gcloud",
-        "storage",
-        "cp",
-        "-r",
-        "/workspace/build/*",
-        "gs://${_FRONTEND_BUCKET_NAME}",
-      ]
+      - gcloud
+      - storage
+      - cp
+      - '-r'
+      - /workspace/build/*
+      - 'gs://${_FRONTEND_BUCKET_NAME}'
