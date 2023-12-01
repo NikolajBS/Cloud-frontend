@@ -21,8 +21,8 @@ steps:
         "gs://${_FRONTEND_BUCKET_NAME}",
       ]
   - name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: bash
     args:
-      - "app"
-      - "deploy"
-    env:
-      - "_BACKEND_ADDRESS=${_BACKEND_ADDRESS}" 
+      - "-c"
+      - |
+        echo "REACT_APP_BACKEND_ADDRESS=${_BACKEND_ADDRESS}" > /workspace/build/.env
