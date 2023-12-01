@@ -28,9 +28,4 @@ steps:
         - "deploy"
       env:
         - "_BACKEND_ADDRESS=${_BACKEND_ADDRESS}"
-  - name: "gcr.io/cloud-builders/gcloud"
-    args:
-      - "app"
-      - "deploy"
-    env:
-      - "_BACKEND_ADDRESS=${_BACKEND_ADDRESS}"
+  
