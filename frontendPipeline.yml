@@ -8,7 +8,6 @@ steps:
     args: ["run", "build"]
 
   # Set environment variables
-
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     args: ["gcloud", "storage", "rm", "-r", "gs://${_FRONTEND_BUCKET_NAME}/**"]
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -20,12 +19,10 @@ steps:
         "-r",
         "/workspace/build/*",
         "gs://${_FRONTEND_BUCKET_NAME}",
-        
       ]
   - name: "gcr.io/cloud-builders/gcloud"
-      args:
-        - "app"
-        - "deploy"
-      env:
-        - "_BACKEND_ADDRESS=${_BACKEND_ADDRESS}"
-  
+    args:
+      - "app"
+      - "deploy"
+    env:
+      - "_BACKEND_ADDRESS=${_BACKEND_ADDRESS}" 
