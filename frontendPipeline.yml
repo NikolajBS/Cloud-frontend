@@ -8,23 +8,21 @@ steps:
       - run
       - build
     entrypoint: npm
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  - name: gcr.io/cloud-builders/gsutil
     args:
-      - gcloud
-      - storage
-      - rm
-      - '-r'
-      - 'gs://${_FRONTEND_BUCKET_NAME}/**'
+      - '-c'
+      - |
+        gsutil -m rm -r gs://${_FRONTEND_BUCKET_NAME}/** || true
+    entrypoint: bash
   - name: 'node:18.13'
     args:
       - '-c'
       - |
         REACT_APP_BACKEND_ADDRESS=${_BACKEND_ADDRESS} npm run build
     entrypoint: bash
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  - name: gcr.io/cloud-builders/gsutil
     args:
-      - gcloud
-      - storage
+      - '-m'
       - cp
       - '-r'
       - /workspace/build/*
